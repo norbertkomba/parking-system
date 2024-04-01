@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('device_no')->nullable()->default(DB::raw("UUID()"));
             $table->string('device_name', 100)->unique();
+            $table->boolean('device_mode')->nullable()->default(false);
             $table->integer('card_limit')->default(100);
             $table->timestamps();
         });

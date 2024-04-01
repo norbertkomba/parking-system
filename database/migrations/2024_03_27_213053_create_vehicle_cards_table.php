@@ -14,10 +14,9 @@ return new class extends Migration
     {
         Schema::create('vehicle_cards', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Device::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->uuid('device_token')->nullable()->default(null);
             $table->string('card_no');
-            $table->double('card_fee')->default(0);
-            $table->string('card_name');
+            $table->string('card_name')->nullable();
             $table->timestamps();
         });
     }

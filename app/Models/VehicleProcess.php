@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Device extends Model
+class VehicleProcess extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'device_no',
-        'device_name',
-        'device_mode',
-        'card_limit'
+        'vehicle_card_id',
+        'vehicle_id',
+        'time_in',
+        'time_out',
+        'fee_charge',
+        'status'
     ];
 }

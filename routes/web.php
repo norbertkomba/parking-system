@@ -3,7 +3,9 @@
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\WebController;
 use App\Models\Device;
+use App\Models\Vehicle;
 use App\Models\VehicleCard;
 use App\Models\VehicleCategory;
 use App\Models\VehicleRate;
@@ -22,11 +24,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () { return view('auth.login'); });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/dashboard', function () { return view('dashboard'); });
+Route::get('/delete-data/{table}/{data}', [WebController::class, 'delete_data'])->middleware(['can:delete data']);
+Route::get('/change-status/{table}/{data}/{colum}/{value}', [WebController::class, 'change_status']);
 Route::get('card-device/card/get-details',[DeviceController::class,'GetDetailsFromArduino']);
+
 
 Route::prefix('card-device')->group(function() {
 
@@ -44,6 +47,7 @@ Route::prefix('card-device')->group(function() {
 
 })->middleware(['can:manage device','manage card']);
 
+
 Route::prefix('rate-category')->group(function() {
 
     Route::prefix('rate')->group(function() {
@@ -57,6 +61,16 @@ Route::prefix('rate-category')->group(function() {
     })->middleware('can:manage category');
 
 })->middleware(['can:manage category','manage rate']);
+
+Route::prefix('vehicle')->group(function() {
+
+    Route::get('/entry/{vehicle?}', function ($vehicle = null) { return view('pages.vehicle.registration',['vehicle' => Vehicle::find($vehicle)]); })->name('vehicle.manage');
+    Route::post('/cu-vehicle',[VehicleController::class,'UpdateCreateVehicle'])->name('vehicle.cu-vehicle');
+
+    Route::get('/check-in', function () { return view('pages.vehicle.check-in'); })->name('vehicle.check-in');
+    Route::get('/check-out', function () { return view('pages.vehicle.check-out'); })->name('vehicle.check-out');
+
+})->middleware(['can:manage vehicle']);
 
 
 

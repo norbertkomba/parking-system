@@ -10,6 +10,7 @@ use App\Models\VehicleCategory;
 use App\Models\VehicleRate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class VehicleController extends Controller
 {
@@ -52,7 +53,8 @@ class VehicleController extends Controller
                     'vehicle_category_id' => $vehicle->category,
                     'vehicle_card_id' => $vehicle->card,
                     'vehicle_name' => $vehicle->vehicle_name,
-                    'reg_no' => $vehicle->reg_no,
+                    'card_fee' => $vehicle->card_fee,
+                    'reg_no' => Str::upper($vehicle->reg_no),
                     'owner_name' => $vehicle->owner_name,
                     'owner_contact' => $vehicle->owner_contact
                 ]

@@ -26,46 +26,42 @@
                         <thead>
                             <tr>
                                 <th class="center">#</th>
-                                <th class="text-left">Name</th>
-                                <th>Status</th>
+                                <th class="text-left">Device Token</th>
+                                <th>Card No</th>
+                                <th>Card Name</th>
                                 <th class="hidden"></th>
-                                <th>Created At</th>
-                                <th>Updated At</th>
+                                <th class="hidden"></th>
                                 <th></th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            {{-- @foreach (\App\Models\Unit::all() as $key => $v)
+                            @foreach (\DB::select("SELECT * FROM `vehicle_cards` ORDER BY `id` DESC LIMIT 200") as $key => $c)
                                 <tr>
                                     <td class="center">{{ $key+1 }}</td>
-                                    <td>{{ $v->name }}</td>
-                                    <td class="center"><span class="badge badge-{{ ($v->status) ? 'primary' : 'danger' }}">{{ $v->status ? 'Active' : 'Blocked' }}</span></td>
+                                    <td>{{ $c->device_token }}</td>
+                                    <td>{{ $c->card_no }}</td>
+                                    <td>{{ $c->card_name ?? "Unknown" }}</td>
                                     <td class="hidden"></td>
-                                    <td class="center">{{ $v->created_at->format('d-M, Y') }}</td>
-                                    <td class="center">{{ $v->updated_at->format('d-M, Y') }}</td>
+                                    <td class="hidden"></td>
 
                                     <td class="center" width="100">
                                         <div class="action-buttons">
-                                            @can('update si-unit')
-                                                <a class="green" href="{{ route('si-unit.edit',['id'=>base64_encode($v->id)]) }}">
+                                            @can('update card')
+                                                <a class="green" href="{{ route('card.manage',['card'=>$c->id]) }}">
                                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                                 </a>
                                             @endcan
-                                            @can('change status')
-                                                <a class="red status-btn" data-value="{{ $v->name }}" data-id="units|{{ $v->id }}|status|{{ ($v->status) ? 0 : 1 }}">
-                                                    <i class="ace-icon fa fa-{{ ($v->status) ? 'unlock' : 'lock' }}  bigger-150"></i>
-                                                </a>
-                                            @endcan
-                                            @can('delete si-unit')
-                                                <a class="red delete-btn" style="cursor: pointer;" data-value="{{ $v->name }}" data-id="units|{{ $v->id }}">
+
+                                            @can('delete card')
+                                                <a class="red delete-btn" style="cursor: pointer;" data-value="{{ $c->card_name }}" data-id="vehicle_cards|{{ $c->id }}">
                                                     <i class="ace-icon fa fa-trash-o bigger-140"></i>
                                                 </a>
                                             @endcan
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach --}}
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -79,42 +75,28 @@
 
                     <div class="widget-body">
                         <div class="widget-main padding-2">
-                            <form id="hospital-settings/units/createForm" autocomplete="off">
+                            <form id="card-device/card/cu-card" autocomplete="off">
                                 @csrf
                                 <div class="form-group">
-                                    <select name="device" class="chosen-select form-control" data-placeholder="Choose Device" onchange="CheckDevice(this)">
-                                        <option value=""></option>
-                                        @foreach (\DB::select('SELECT * FROM `devices`') as $device)
-                                            <option value="{{ $device->id }}" {{ (isset($card->id) && $card->device_id == $device->id) ? 'selected' : '' }}>{{ $device->device_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="form-group card_na hidden">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-text-width"></i></span>
-                                        <input type="text" class="form-control" name="name" value="{{ $unit->name ?? '' }}" placeholder="Card name">
-                                        <input type="hidden" name="unit_id" value="{{ $unit->id ?? '' }}">
+                                        <input type="text" class="form-control" name="card_name" value="{{ $card->card_name ?? '' }}" placeholder="Card name">
+                                        <input type="hidden" name="card" value="{{ $card->id ?? '' }}">
                                     </div>
                                 </div>
 
-                                <div class="form-group card_fe hidden">
+                                <div class="form-group">
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-text-width"></i></span>
-                                        <input type="text" class="form-control" name="name" value="{{ $unit->name ?? '' }}" placeholder="Card fee">
+                                        <span class="input-group-addon"><i class="fa fa-text-height"></i></span>
+                                        <input type="text" class="form-control" name="card_no" value="{{ $card->card_no ?? '' }}" placeholder="Card number" disabled>
                                     </div>
                                 </div>
 
-                                <div class="form-group card_no hidden">
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-text-width"></i></span>
-                                        <input type="text" class="form-control" name="name" value="{{ $unit->name ?? '' }}" placeholder="Card number">
-                                    </div>
-                                </div>
-
-                                <button type="button" class="btn btn-sm btn-primary btn-round" id="cu_units" onclick="create_update_data(0,'hospital-settings/units','cu_units')">
-                                    <i class="fa fa-send"></i> Save
-                                </button>
+                                @if ($card)
+                                    <button type="button" class="btn btn-sm btn-primary btn-round" id="cu_card" onclick="updateOrCreateData('card-device/card/cu-card','cu_card')">
+                                        <i class="fa fa-send"></i> Save
+                                    </button>
+                                @endif
                             </form>
                         </div>
                     </div>
@@ -123,19 +105,3 @@
         </div>
     </div>
 @endsection
-@push('scripts')
-    <script>
-        function CheckDevice(v) {
-            $('.card_na, .card_fe, .card_no').(v.value !== '') ? removeClass('hidden') : addClass('hidden');
-
-            // (v.value !== '') ?
-            // if (v.value !== '') {
-            //     $('.card_na, .card_fe, .card_no').removeClass('hidden');
-            // }else{
-            //     $('.card_na, .card_fe, .card_no').addClass('hidden');
-            // }
-        }
-
-
-    </script>
-@endpush

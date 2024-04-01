@@ -13,6 +13,7 @@ class Vehicle extends Model
         'vehicle_category_id',
         'vehicle_card_id',
         'vehicle_name',
+        'card_fee',
         'reg_no',
         'owner_name',
         'owner_contact'

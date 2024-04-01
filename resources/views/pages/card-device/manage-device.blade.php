@@ -17,7 +17,7 @@
     <div class="page-content">
         @include('temp.ace-setting')
         <div class="row">
-            <div class="col-sm-7">
+            <div class="col-sm-8">
                 <div class="table-header">
                     Results for "Latest Registered {{ str_replace('-',' ',Str::title(request()->segment(2))) }}"
                 </div>
@@ -28,7 +28,7 @@
                                 <th class="center">#</th>
                                 <th class="text-left">Device ID</th>
                                 <th class="text-left">Device Name</th>
-                                <th class="text-left">Card Limit</th>
+                                <th class="text-left">Device Mode</th>
                                 <th class="hidden"></th>
                                 <th class="hidden"></th>
                                 <th></th>
@@ -41,7 +41,7 @@
                                     <td class="center">{{ $key+1 }}</td>
                                     <td>{{ $card->device_no }}</td>
                                     <td>{{ $card->device_name }}</td>
-                                    <td>{{ $card->card_limit ?? 0 }}</td>
+                                    <td class="text-uppercase"><span class="badge badge-{{ $card->device_mode ? 'primary' : 'danger' }}">{{ $card->device_mode ? 'Fees Collection' : 'Card Registration' }}</span></td>
                                     <td class="hidden"></td>
                                     <td class="hidden"></td>
 
@@ -51,6 +51,11 @@
                                                 <a class="green" href="{{ route('device.manage',['device'=>$card->id]) }}">
                                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
                                                 </a>
+
+                                                <a class="red status-btn" data-id="devices|{{ $card->id }}|device_mode|{{ ($card->device_mode ? 0 : 1) }}" data-value="{{ $card->device_name }}" style="cursor: pointer">
+                                                    <i class="ace-icon fa fa-{{ ($card->device_mode) ? 'unlock-alt' : 'lock' }} bigger-140"></i>
+                                                </a>
+
                                             @endcan
 
                                             @can('delete device')
@@ -67,7 +72,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <div class="widget-box widget-color-blue">
                     <div class="table-header">
                         Device Details

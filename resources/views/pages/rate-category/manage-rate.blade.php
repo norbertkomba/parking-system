@@ -80,7 +80,7 @@
                                 <div class="form-group">
                                     <select name="category" class="chosen-select form-control" data-placeholder="Category">
                                         <option value=""></option>
-                                        @foreach (\DB::select('SELECT * FROM `vehicle_categories` WHERE `status` = ?', [1]) as $cat)
+                                        @foreach (\DB::select('SELECT * FROM `category_exists` WHERE `status` = ?', [1]) as $cat)
                                             <option value="{{ $cat->id }}" {{ (isset($rate->id) && $rate->vehicle_category_id == $cat->id) ? 'selected' : '' }}>{{ $cat->name }}</option>
                                         @endforeach
                                     </select>

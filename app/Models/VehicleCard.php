@@ -10,9 +10,8 @@ class VehicleCard extends Model
     use HasFactory;
 
     protected $fillable = [
-        'device_id',
+        'device_token',
         'card_no',
-        'card_fee',
         'card_name',
     ];
 }

@@ -22,9 +22,6 @@ class StoreUpdateCard extends FormRequest
     public function rules(): array
     {
         return [
-            'device' => 'required|integer',
-            'card_no' => 'required',
-            'card_fee' => 'required',
             'card_name' => 'required',
         ];
     }
@@ -37,9 +34,6 @@ class StoreUpdateCard extends FormRequest
     public function messages()
     {
         return [
-            'device.required' => 'Device is required',
-            'card_no.required' => 'Card no is required',
-            'card_fee.required' => 'Card amount is required',
             'card_name.required' => 'Card name is required',
         ];
     }

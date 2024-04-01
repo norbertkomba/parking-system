@@ -19,5 +19,49 @@ return new class extends Migration
             FROM `vehicle_rates` r
             JOIN `vehicle_categories` c ON c.id = r.vehicle_category_id;
         ");
+
+        DB::unprepared("
+        CREATE OR REPLACE VIEW `category_exists` AS
+            SELECT c.*
+            FROM `vehicle_categories` c
+            LEFT JOIN `vehicle_rates` r ON r.vehicle_category_id = c.id
+            WHERE r.vehicle_category_id IS NULL;
+        ");
+
+        DB::unprepared("
+        CREATE OR REPLACE VIEW `card_exists` AS
+            SELECT c.*
+            FROM `vehicle_cards` c
+            LEFT JOIN `vehicles` v ON v.vehicle_card_id = c.id
+            WHERE v.vehicle_card_id IS NULL;
+        ");
+
+        DB::unprepared("
+        CREATE OR REPLACE VIEW `vehicle_list` AS
+            SELECT v.*,
+                c.card_no,
+                r.rate
+            FROM `vehicles` v
+            LEFT JOIN `vehicle_cards` c ON c.id = v.vehicle_card_id
+            LEFT JOIN `vehicle_categories` t ON t.id = v.vehicle_category_id
+            LEFT JOIN `vehicle_rates` r ON r.vehicle_category_id = r.id;
+        ");
+
+        DB::unprepared("
+        CREATE OR REPLACE VIEW `vehicle_process_list` AS
+            SELECT p.*,
+                v.card_fee,
+                v.reg_no,
+                v.owner_name,
+                v.owner_contact,
+                c.card_no,
+                t.name,
+                r.rate
+            FROM `vehicle_processes` p
+            LEFT JOIN `vehicles` v ON v.id = p.vehicle_id
+            LEFT JOIN `vehicle_cards` c ON c.id = v.vehicle_card_id
+            LEFT JOIN `vehicle_categories` t ON t.id = v.vehicle_category_id
+            LEFT JOIN `vehicle_rates` r ON r.vehicle_category_id = r.id;
+        ");
     }
 };

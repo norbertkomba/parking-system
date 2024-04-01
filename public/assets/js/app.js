@@ -20,77 +20,11 @@ function base_url(){
 
 $('.hit-enter-log').on("keydown", function (event) {
     if(event.keyCode === 13 || event.keyCode === 9) {
-        // var username = $('.user-name').val();
-        // var password = $('.user-password').val();
-        // var data = 'username='+username+'&password='+password;
-        // $('.authenticate').prop('disabled',true).html('<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i> Processing..');
-        // $('.notify').html('<b class="ace-icon fa fa-refresh fa-spin blue"> </b> <i  style="color: black;">Authenticating please wait ...</i>');
-        // $.ajax({
-        //     //this is the php file that processes the data
-        //     url: base_url()+'login-save',
-        //     //GET method is used
-        //     type: "POST",
-        //     //pass the data
-        //     data: data,
-        //     //Do not cache the page
-        //     cache: false,
-        //     //success
-        //     success: function (v) {
-        //         if(v === 200) {
-        //             // $('.notify').html("<i style='color: green'>Authentication success, Redirecting ... ("+v+")</i>");
-        //             swal({
-        //                 text: 'Authentication success, Redirecting ... ('+v+')',
-        //                 icon: "success",
-        //                 button: "OK",
-        //             }).then(()=>{
-        //                 window.location.href = base_url()+'dashboard';
-        //             });
-        //         }
-        //         $('.notify').html("");$('.authenticate').prop('disabled',false).html("Login <span class='fa fa-arrow-right'></span>");
-        //     },
-        //     error: function(jqXhr, textStatus, errorThrown){
-        //         getAllErrors(jqXhr, textStatus, errorThrown);
-        //         $('.notify').html("");$('.authenticate').prop('disabled',false).html("Login <span class='fa fa-arrow-right'></span>");
-        //     }
-        // });
         login_process();
     }
 });
 
 $('.authenticate').click(function () {
-    // var username = $('.user-name').val();
-    // var password = $('.user-password').val();
-    // var data = 'username='+username+'&password='+password;
-    // $('.authenticate').prop('disabled',true).html('<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i> Processing..');
-    // $('.notify').html('<b class="ace-icon fa fa-refresh fa-spin blue"> </b> <i  style="color: black;">Authenticating please wait ...</i>');
-    // $.ajax({
-    //     //this is the php file that processes the data
-    //     url: base_url()+'login-save',
-    //     //GET method is used
-    //     type: "POST",
-    //     //pass the data
-    //     data: data,
-    //     //Do not cache the page
-    //     cache: false,
-    //     //success
-    //     success: function (v) {
-    //         if(v === 200) {
-    //             swal({
-    //                 text: 'Authentication success, Redirecting ... ('+v+')',
-    //                 icon: "success",
-    //                 button: "OK",
-    //             }).then(()=>{
-    //                 window.location.href = base_url()+'dashboard';
-    //             });
-    //         }
-    //         $('.notify').html(" ");$('.authenticate').prop('disabled',false).html("Login <span class='fa fa-arrow-right'></span>");
-    //         // else $('.notify').html("<i style='color: red'>"+v+"</i>");
-    //     },
-    //     error: function(jqXhr, textStatus, errorThrown ){
-    //         getAllErrors(jqXhr, textStatus, errorThrown);
-    //         $('.notify').html("");$('.authenticate').prop('disabled',false).html("Login <span class='fa fa-arrow-right'></span>");
-    //     }
-    // });
     login_process();
 });
 
@@ -148,7 +82,7 @@ toastr.options = {
     "hideMethod": "hide"
 };
 
-$('.delete-btn').on('click',function(){
+$(document).on('click','.delete-btn',function(){
     // $('#delete-modal').modal('show');
     const Id = $(this).data('id').split('|')[1];
     const table = $(this).data('id').split('|')[0];
@@ -177,6 +111,39 @@ $('.delete-btn').on('click',function(){
                     else if (jqXhr.status === 403) toastr.error('* Your unauthorized to perform this action, Please contact Admin.','Oops..!!');
                     else toastr.error('ERROR',''+jqXhr.statusText+" : "+jqXhr.status+'');
                     $('#confirm-delete').prop('disabled',false);
+                }
+            });
+        }
+    })
+});
+$('.status-btn').on('click',function(){
+    const Id = $(this).data('id').split('|')[1];
+    const table = $(this).data('id').split('|')[0];
+    const colum = $(this).data('id').split('|')[2];
+    const value = $(this).data('id').split('|')[3];
+    swal({
+        title: "Are you sure?",
+        text: "You want to change status for " + $(this).data('value'),
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((change) => {
+        if (change) {
+            $('.loader-spinner').fadeIn();
+            $('.request-progress').show().html('<i class="ace-icon fa fa-refresh fa-spin white"></i> Processing data '+ $(this).data('value') +' please wait...');
+            $.ajax({
+                url:'/change-status/'+table+'/'+Id+'/'+colum+'/'+value,
+                type:"GET",
+                caches:false,
+                success:function(data){
+                    if(data==200){
+                        $('.loader-spinner').fadeOut();
+                        $('.request-progress').hide();
+
+                        swal("Congrats!", "Status changed successfully!", "success").then(() => {window.location.reload()});
+                    }
+                },error:function(jqXhr, ajaxOptions, errorThrown){
+                    get_all_errors(jqXhr, ajaxOptions, errorThrown);
                 }
             });
         }
