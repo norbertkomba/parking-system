@@ -44,7 +44,7 @@ return new class extends Migration
             FROM `vehicles` v
             LEFT JOIN `vehicle_cards` c ON c.id = v.vehicle_card_id
             LEFT JOIN `vehicle_categories` t ON t.id = v.vehicle_category_id
-            LEFT JOIN `vehicle_rates` r ON r.vehicle_category_id = r.id;
+            LEFT JOIN `vehicle_rates` r ON r.vehicle_category_id = t.id;
         ");
 
         DB::unprepared("
@@ -59,9 +59,9 @@ return new class extends Migration
                 r.rate
             FROM `vehicle_processes` p
             LEFT JOIN `vehicles` v ON v.id = p.vehicle_id
-            LEFT JOIN `vehicle_cards` c ON c.id = v.vehicle_card_id
+            LEFT JOIN `vehicle_cards` c ON c.id = p.vehicle_card_id
             LEFT JOIN `vehicle_categories` t ON t.id = v.vehicle_category_id
-            LEFT JOIN `vehicle_rates` r ON r.vehicle_category_id = r.id;
+            LEFT JOIN `vehicle_rates` r ON v.vehicle_category_id = r.id;
         ");
     }
 };

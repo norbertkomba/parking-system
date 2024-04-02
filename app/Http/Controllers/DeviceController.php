@@ -46,22 +46,25 @@ class DeviceController extends Controller
             $card = VehicleCard::where("device_token",$request['device_token'])->where("card_no",$request['card_uid'])->first();
             if (!$device->device_mode) {
                 if ($card) {
-                    return response()->json(['message' => 'available'], 200);
+                    return response()->json('available', 200);
                 }
 
                 VehicleCard::create([
                     'device_token' => $request['device_token'],
                     'card_no' => $request['card_uid'],
                 ]);
-                return response()->json(['message' => 'available'], 200);
+                return response()->json('available');
             }
             else {
-                $vehicle = Vehicle::where("vehicle_card_id",$card->id)->first();
-                $vehicleCheck = VehicleProcess::where("vehicle_card_id",$card->id)->where("vehicle_id",$vehicle->id)->where("status",false)->first();
+                if ($card) {
+                    $vehicle = Vehicle::where("vehicle_card_id",$card->id)->first();
+                    $vehicleCheck = VehicleProcess::where("vehicle_card_id",$card->id)->where("vehicle_id",$vehicle->id)->where("status",false)->first();
 
-                return (is_null($vehicleCheck)
-                        ? $this->vehicle_enter($card,$vehicle)
-                        : $this->vehicle_leave($vehicleCheck));
+                    return (is_null($vehicleCheck)
+                            ? $this->vehicle_enter($card,$vehicle)
+                            : $this->vehicle_leave($vehicleCheck));
+                }
+                return response()->json('notregistered');
             }
         } catch (\Throwable $th) {
             Log::error($th->getMessage());
@@ -75,7 +78,7 @@ class DeviceController extends Controller
             'vehicle_id' => $vehicle->id,
             'time_in' => Carbon::now(),
         ]);
-        return response()->json(['message' => 'login'], 200);
+        return response()->json('login');
     }
 
     public function vehicle_leave($vehicle) {
@@ -96,6 +99,6 @@ class DeviceController extends Controller
         ]);
         Vehicle::find($process[0]->vehicle_id)->update(["card_fee" => $fee_coll]);
 
-        return response()->json(['message' => 'logout'], 200);
+        return response()->json('logout');
     }
 }

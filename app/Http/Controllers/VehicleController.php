@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUpdateCategory;
 use App\Http\Requests\StoreUpdateRate;
 use App\Http\Requests\StoreUpdateVehicle;
 use App\Models\Vehicle;
+use App\Models\VehicleCard;
 use App\Models\VehicleCategory;
 use App\Models\VehicleRate;
 use Illuminate\Http\JsonResponse;
@@ -59,6 +60,8 @@ class VehicleController extends Controller
                     'owner_contact' => $vehicle->owner_contact
                 ]
             );
+            VehicleCard::find($vehicle->card)->update(['card_name' => Str::upper($vehicle->reg_no)]);
+            
             return response()->json(["status" => JsonResponse::HTTP_OK, "message" => "Vehicle records saved successfully!"]);
         } catch (\Throwable $th) {
             return response()->json($th->getMessage(), 500);

@@ -43,7 +43,7 @@
                                     <td>{{ $v->name }}</td>
                                     <td>{{ $v->owner_name."  ||  ".$v->owner_contact }}</td>
                                     <td>{{ $v->card_no ?? "Unknown" }}</td>
-                                    <td class="center"><span class="badge badge-{{ $v->status ? "primary" : "danger" }}">{{ $v->status ? "CHECK IN" : "CHECK OUT" }}</span></td>
+                                    <td class="center"><span class="badge badge-{{ $v->status ? "primary" : "danger" }}">{{ $v->status ? "CHECK OUT" : "CHECK IN" }}</span></td>
 
                                     <td class="center" width="100">
                                         <div class="action-buttons">
