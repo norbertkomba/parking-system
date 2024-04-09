@@ -2,14 +2,16 @@
 
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WebController;
 use App\Models\Device;
+use App\Models\User;
 use App\Models\Vehicle;
 use App\Models\VehicleCard;
 use App\Models\VehicleCategory;
 use App\Models\VehicleRate;
-use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,18 +33,30 @@ Route::get('/change-status/{table}/{data}/{colum}/{value}', [WebController::clas
 Route::get('card-device/card/get-details',[DeviceController::class,'GetDetailsFromArduino']);
 
 
+Route::prefix("logs-access")->group(function() {
+    Route::get('/manage-user/{user?}', function ($user = null) { return view('pages.logs-access.manage-user',['user' => User::find($user)]);})->name('user.manage');
+    Route::post('/cu-user',[UserController::class,'UpdateCreateUser'])->name('user.cu-user');
+    Route::get('/cu-password',[UserController::class,'ChangeUserPassword'])->name('user.cu-password');
+
+
+    Route::get('/manage-role/{role?}', function ($role = null) { return view('pages.logs-access.manage-role',['role' => Role::find($role)]);})->name('role.manage');
+    Route::get('/cu-role/{role?}', function ($role = null) { return view('pages.logs-access.manage-role',['role' => Role::find($role)]);})->name('role.manage');
+});
+
+
+
+
+
 Route::prefix('card-device')->group(function() {
 
     Route::prefix('card')->group(function() {
         Route::get('/{card?}', function ($card = null) { return view('pages.card-device.manage-card',['card' => VehicleCard::find($card)]); })->name('card.manage');
         Route::post('/cu-card',[DeviceController::class,'UpdateCreateCard'])->name('card.cu-card');
-
     })->middleware('can:manage card');
 
     Route::prefix('device')->group(function() {
         Route::get('/{device?}', function ($device = null) { return view('pages.card-device.manage-device',['device' => Device::find($device)]); })->name('device.manage');
         Route::post('/cu-device',[DeviceController::class,'UpdateCreateDevice'])->name('device.cu-device');
-
     })->middleware('can:manage device');
 
 })->middleware(['can:manage device','manage card']);

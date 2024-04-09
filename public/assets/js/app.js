@@ -228,7 +228,7 @@ function changePassword(v)
         $('.request-progress').show().html('<i class="ace-icon fa fa-circle-o-notch fa-spin white"></i> Inserting data please wait...');
         $(this).prop('disabled',true).html('<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i> Processing..');
         $.ajax({
-            url:"/user/change-password",
+            url:"/logs-access/cu-password",
             method:"GET",
             data:{password:$('.ch_password').val(),id:v},
             cache:false,

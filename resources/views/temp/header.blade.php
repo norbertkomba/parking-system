@@ -33,15 +33,6 @@
 
                     <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                         <li>
-                            <a href="profile.html">
-                                <i class="ace-icon fa fa-user"></i>
-                                Profile
-                            </a>
-                        </li>
-
-                        <li class="divider"></li>
-
-                        <li>
                             <a href="#" onclick="event.preventDefault();
                                 document.getElementById('logout-form').submit();">
                                 <i class="ace-icon fa fa-power-off"></i>

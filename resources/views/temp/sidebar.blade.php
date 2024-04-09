@@ -14,45 +14,45 @@
         </li>
 
         @canany(["manage user", "manage group"])
-            <li class="{{ request()->segment(1)=='permission-group' ? 'active open' : '' }}">
+            <li class="{{ request()->segment(1)=='logs-access' ? 'active open' : '' }}">
                 <a href="#" class="dropdown-toggle">
                     <i class="menu-icon fa fa-user-secret"></i>
                     <span class="menu-text">
                         Logs & Access
                     </span>
 
-                    <b class="arrow fa fa-angle-{{ request()->segment(1)=='permission-group' ? 'down' : 'left' }}"></b>
+                    <b class="arrow fa fa-angle-{{ request()->segment(1)=='logs-access' ? 'down' : 'left' }}"></b>
                 </a>
 
                 <b class="arrow"></b>
 
-                <ul class="submenu {{ request()->segment(1)=='permission-group' ? 'nav-show' : '' }}">
+                <ul class="submenu {{ request()->segment(1)=='logs-access' ? 'nav-show' : '' }}">
                     @can('manage user')
-                        <li class="{{ request()->routeIs('activity.list') ? "active" : '' }}">
-                            <a href="">
+                        <li class="{{ request()->routeIs('user.manage') ? "active" : '' }}">
+                            <a href="{{ route("user.manage") }}">
                                 <i class="menu-icon fa fa-user-secret"></i>
-                                Users
+                                User
                             </a>
                             <b class="arrow"></b>
                         </li>
                     @endcan
 
                     @can('create group')
-                        <li class="{{ request()->routeIs('permission.cu_group') ? "active" : '' }}">
-                            <a href="">
+                        <li class="{{ request()->routeIs('role.manage') ? "active" : '' }}">
+                            <a href="{{ route('role.manage') }}">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                Groups
+                                User roles
                             </a>
                             <b class="arrow"></b>
                         </li>
 
-                        <li class="{{ request()->routeIs('permission.list') ? "active" : '' }}">
+                        {{-- <li class="{{ request()->routeIs('permission.list') ? "active" : '' }}">
                             <a href="">
                                 <i class="menu-icon fa fa-caret-right"></i>
                                 Permissions
                             </a>
                             <b class="arrow"></b>
-                        </li>
+                        </li> --}}
                     @endcan
                 </ul>
             </li>

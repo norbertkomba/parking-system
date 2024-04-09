@@ -61,7 +61,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'create vehicle', 'guard_name' => 'web', 'group_name' => 'Vehicle']);
         Permission::create(['name' => 'delete vehicle', 'guard_name' => 'web', 'group_name' => 'Vehicle']);
 
-        Role::create(['name' => 'Super Administrator'])->givePermissionTo(Permission::all());
+        Role::create(['name' => 'Super Administrator','guard_name' => 'web'])->givePermissionTo(Permission::all());
 
         Schema::enableForeignKeyConstraints();
     }
