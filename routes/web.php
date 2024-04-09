@@ -39,8 +39,9 @@ Route::prefix("logs-access")->group(function() {
     Route::get('/cu-password',[UserController::class,'ChangeUserPassword'])->name('user.cu-password');
 
 
-    Route::get('/manage-role/{role?}', function ($role = null) { return view('pages.logs-access.manage-role',['role' => Role::find($role)]);})->name('role.manage');
-    Route::get('/cu-role/{role?}', function ($role = null) { return view('pages.logs-access.manage-role',['role' => Role::find($role)]);})->name('role.manage');
+    Route::get('/manage-role', function () { return view('pages.logs-access.manage-role');})->name('role.manage');
+    Route::get('/user-role/{role?}', function ($role = null) { return view('pages.logs-access.create-update-role',['role' => Role::find($role)]);})->name('role.create-update');
+    Route::post('/cu-user-role',[UserController::class,'UpdateCreateUserRole'])->name('role.cu-user-role');
 });
 
 

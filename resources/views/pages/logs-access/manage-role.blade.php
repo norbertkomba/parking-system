@@ -18,6 +18,10 @@
             <div class="col-sm-12">
                 <div class="table-header">
                     Results for "Latest Registered Group"
+
+                    <a href="{{ route("role.create-update") }}" class="btn btn-primary btn-round btn-sm pull-right" style="margin-right: 10px">
+                        <i class="fa fa-plus"></i> Add User Role
+                    </a>
                 </div>
 
                 <div>
@@ -53,7 +57,7 @@
                                         <div class="action-buttons">
                                             @can('update group')
                                                 <span class="tooltip-success" data-rel="tooltip" data-placement="top" title="edit-role">
-                                                    <a class="green" href="{{ route('role.manage',['role' => $role->id]) }}">
+                                                    <a class="green" href="{{ route('role.create-update',['role' => $role->id]) }}">
                                                         <i class="ace-icon fa fa-pencil-square-o bigger-160"></i>
                                                     </a>
                                                 </span>

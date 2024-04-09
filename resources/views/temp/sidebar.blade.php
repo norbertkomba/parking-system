@@ -38,7 +38,7 @@
                     @endcan
 
                     @can('create group')
-                        <li class="{{ request()->routeIs('role.manage') ? "active" : '' }}">
+                        <li class="{{ (request()->routeIs('role.manage') || request()->routeIs('role.create-update')) ? "active" : '' }}">
                             <a href="{{ route('role.manage') }}">
                                 <i class="menu-icon fa fa-caret-right"></i>
                                 User roles
