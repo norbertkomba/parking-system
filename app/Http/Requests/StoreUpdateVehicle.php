@@ -23,10 +23,10 @@ class StoreUpdateVehicle extends FormRequest
     {
         return [
             "category" => "required|integer",
-            "card" => "required|string",
+            "card" => "required_if:vehicle,null|unique:vehicles,vehicle_card_id,".$this->vehicle.",id",
             "vehicle_name" => "required|string",
             "card_fee" => "required",
-            "reg_no" => "required|string",
+            "reg_no" => "required|string|unique:vehicles,reg_no,".$this->vehicle.",id",
             "owner_name" => "required|string",
             "owner_contact" => "required|string",
         ];
@@ -45,6 +45,7 @@ class StoreUpdateVehicle extends FormRequest
             'vehicle_name.required' => 'Vehicle name is required',
             'card_fee.required' => 'Card amount is required',
             'reg_no.required' => 'Reg/Plate number is required',
+            'reg_no.unique' => 'Reg/Plate number is already exist',
             'owner_name.required' => 'Owner name is required',
             'owner_contact.required' => 'Owner contact is required',
         ];

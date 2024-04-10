@@ -30,7 +30,7 @@
                                 <th class="text-left">Category</th>
                                 <th class="text-left">Owner Details</th>
                                 <th class="text-left">Card No</th>
-                                <th>Charge</th>
+                                <th>Time Exceed x Rate = Charge</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -43,7 +43,14 @@
                                     <td>{{ $v->name }}</td>
                                     <td>{{ $v->owner_name."  ||  ".$v->owner_contact }}</td>
                                     <td>{{ $v->card_no ?? "Unknown" }}</td>
-                                    <td class="text-right">{{ number_format($v->fee_charge) }}/=</td>
+                                    <td width="200" class="center">
+                                        @php
+                                            $time_in = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $v->time_in);
+                                            $time_out = Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $v->time_out);
+                                            $time_diff_hours = $time_out->diffInHours($time_in);
+                                        @endphp
+                                        <span class="badge badge-primary">{{ $time_diff_hours."hr" }}&nbsp; x &nbsp;{{ number_format($v->rate) }}&nbsp;</span>&nbsp;&nbsp; = &nbsp;&nbsp;<span class="badge badge-danger">{{ number_format($v->fee_charge) }}</span>
+                                    </td>
 
                                     <td class="center" width="100">
                                         <div class="action-buttons">

@@ -29,7 +29,7 @@
                                 <th class="text-left">Registration No</th>
                                 <th width="190" class="text-left">Owner</th>
                                 <th class="text-left">Card No</th>
-                                <th class="hidden"></th>
+                                <th class="text-right">Card Balance</th>
                                 <th class="hidden"></th>
                                 <th></th>
                             </tr>
@@ -42,14 +42,18 @@
                                     <td>{{ $v->reg_no }}</td>
                                     <td>{{ $v->owner_name." || ".$v->owner_contact }}</td>
                                     <td>{{ $v->card_no ?? "Unknown" }}</td>
-                                    <td class="hidden"></td>
+                                    <td class="text-right">{{ number_format($v->card_fee,2) }}/=</td>
                                     <td class="hidden"></td>
 
-                                    <td class="center" width="80">
+                                    <td class="center" width="120">
                                         <div class="action-buttons">
                                             @can('update vehicle')
                                                 <a class="green" href="{{ route('vehicle.manage',['vehicle'=>$v->id]) }}">
                                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
+                                                </a>
+
+                                                <a class="blue" style="cursor: pointer" data-target="#recharge-card-modal" data-toggle="modal" onclick="RechargeCardAmount({{ $v->id }})">
+                                                    <i class="ace-icon fa fa-refresh bigger-130"></i>
                                                 </a>
                                             @endcan
 

@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(VehicleCategory::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignIdFor(VehicleCard::class)->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignIdFor(VehicleCategory::class)->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignIdFor(VehicleCard::class)->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('vehicle_name', 100);
             $table->double('card_fee', 10, 2)->default(0);
             $table->string('reg_no', 100);

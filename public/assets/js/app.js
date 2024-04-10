@@ -249,6 +249,57 @@ function changePassword(v)
     });
 }
 
+function RechargeCardAmount(v)
+{
+    $('.recharge_card').on('click',function(){
+        $('.request-progress').show().html('<i class="ace-icon fa fa-circle-o-notch fa-spin white"></i> Inserting data please wait...');
+        $(this).prop('disabled',true).html('<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i> Processing..');
+
+        $.ajax({
+            url: base_url() + 'vehicle/recharge',
+            type: "GET",
+            data: {recharge_fee: $('.recharge_fee').val(), id:v},
+            caches: false,
+            success:function(response) {
+                $('.recharge_card').prop('disabled',false).html('<i class="fa fa-send"></i> Save');$('.request-progress').hide("");$('.loader-spinner').fadeOut();
+                if (response.status == 200) {
+                    swal({
+                        title: 'Success!',
+                        text: response.message,
+                        icon: "success",
+                        button: "OK",
+                    }).then(() => { window.location.reload(true); });
+                }else toastr.warning(response,'Oops..!');
+            },error:function(jqXhr, ajaxOptions, errorThrown){
+                getAllErrors(jqXhr, ajaxOptions, errorThrown,'.recharge_card');
+            }
+        });
+
+
+        // $.ajax({
+        //     url:"/card-device/card/recharge",
+        //     method:"GET",
+        //     data:{card_fee:$('.card_fee').val(),id:v},
+        //     cache:false,
+        //     success:function(data){
+        //         console.log(data);
+        //         // $('.recharge_card').prop('disabled',false).html('<i class="fa fa-send"></i> Save');$('.request-progress').hide("");$('.loader-spinner').fadeOut();
+        //         // if (data.status == 200) {
+        //         //     swal({
+        //         //         title: 'Success!',
+        //         //         text: data.message,
+        //         //         icon: "success",
+        //         //         button: "OK",
+        //         //     }).then(() => { window.location.reload(true); });
+        //         // }else toastr.warning(data,'Oops..!');
+        //     },error:function(jqXhr, ajaxOptions, errorThrown){
+        //         getAllErrors(jqXhr, ajaxOptions, errorThrown,'.recharge_card');
+        //     }
+        // });
+    });
+}
+
+
 $(window).on('load', function() {
     $('.pdf_file').click(function() {
         try {

@@ -53,7 +53,7 @@ class DeviceController extends Controller
                     'device_token' => $request['device_token'],
                     'card_no' => $request['card_uid'],
                 ]);
-                return response()->json('available');
+                return response()->json('success');
             }
             else {
                 if ($card) {
@@ -62,7 +62,7 @@ class DeviceController extends Controller
 
                     return (is_null($vehicleCheck)
                             ? $this->vehicle_enter($card,$vehicle)
-                            : $this->vehicle_leave($vehicleCheck));
+                            : $this->vehicle_leave($vehicleCheck,$vehicle));
                 }
                 return response()->json('notregistered');
             }
@@ -81,7 +81,7 @@ class DeviceController extends Controller
         return response()->json('login');
     }
 
-    public function vehicle_leave($vehicle) {
+    public function vehicle_leave($vehicle,$vehicle_card) {
         $process = DB::select('SELECT * FROM `vehicle_process_list` WHERE  `id` = ?',[$vehicle->id]);
         $time_in = Carbon::createFromFormat('Y-m-d H:i:s', $process[0]->time_in);
         $time_out = Carbon::now();
@@ -90,15 +90,21 @@ class DeviceController extends Controller
         $rate = $process[0]->rate;
         $card_fee = $process[0]->card_fee;
 
-        $fee_coll = ($time_diff_hours > 1) ? $card_fee - ($time_diff_hours * $rate) : 0;
+        $calculated_fee = $time_diff_hours * $rate;
+        $remaining_balance = $card_fee - $calculated_fee;
+
+        if ($card_fee <= 0 || $remaining_balance < 0) {
+            return response()->json('insufficient_balance');
+        }
 
         VehicleProcess::find($vehicle->id)->update([
             'time_out' => Carbon::now(),
             'fee_charge' => ($time_diff_hours * $rate),
             'status' => true
         ]);
-        Vehicle::find($process[0]->vehicle_id)->update(["card_fee" => $fee_coll]);
+        Vehicle::find($process[0]->vehicle_id)->update(["card_fee" => $calculated_fee]);
 
         return response()->json('logout');
+
     }
 }

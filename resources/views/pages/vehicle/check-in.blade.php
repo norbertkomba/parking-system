@@ -30,7 +30,7 @@
                                 <th class="text-left">Category</th>
                                 <th class="text-left">Owner Details</th>
                                 <th class="text-left">Card No</th>
-                                <th>Status</th>
+                                <th>Date & Time</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -43,7 +43,7 @@
                                     <td>{{ $v->name }}</td>
                                     <td>{{ $v->owner_name."  ||  ".$v->owner_contact }}</td>
                                     <td>{{ $v->card_no ?? "Unknown" }}</td>
-                                    <td class="center"><span class="badge badge-{{ $v->status ? "primary" : "danger" }}">{{ $v->status ? "CHECK OUT" : "CHECK IN" }}</span></td>
+                                    <td class="center">{{ date('d/m/Y H:i', strtotime($v->time_in))}}</td>
 
                                     <td class="center" width="100">
                                         <div class="action-buttons">
