@@ -80,7 +80,7 @@ Route::prefix('rate-category')->group(function() {
 
 Route::prefix('vehicle')->group(function() {
 
-    Route::get('/entry/{vehicle?}', function ($vehicle = null) { return view('pages.vehicle.registration',['vehicle' => Vehicle::find($vehicle)]); })->name('vehicle.manage');
+    Route::get('/registration/{vehicle?}', function ($vehicle = null) { return view('pages.vehicle.registration',['vehicle' => Vehicle::find($vehicle)]); })->name('vehicle.manage');
     Route::post('/cu-vehicle',[VehicleController::class,'UpdateCreateVehicle'])->name('vehicle.cu-vehicle');
 
     Route::get('/check-in', function () { return view('pages.vehicle.check-in'); })->name('vehicle.check-in');

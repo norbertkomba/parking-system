@@ -28,10 +28,11 @@
                                 <th class="center">#</th>
                                 <th class="text-left">Vehicle No</th>
                                 <th class="text-left">Category</th>
-                                <th class="text-left">Owner Details</th>
+                                <th class="text-left">Owner Name</th>
+                                <th class="text-left">Owner Phone</th>
                                 <th class="text-left">Card No</th>
                                 <th>Date & Time</th>
-                                <th></th>
+                                <th class="hidden"></th>
                             </tr>
                         </thead>
 
@@ -42,18 +43,9 @@
                                     <td>{{ $v->reg_no }}</td>
                                     <td>{{ $v->name }}</td>
                                     <td>{{ $v->owner_name."  ||  ".$v->owner_contact }}</td>
+                                    <td>{{ $v->owner_name."  ||  ".$v->owner_contact }}</td>
                                     <td>{{ $v->card_no ?? "Unknown" }}</td>
                                     <td class="center">{{ date('d/m/Y H:i', strtotime($v->time_in))}}</td>
-
-                                    <td class="center" width="100">
-                                        <div class="action-buttons">
-                                            @can('update vehicle')
-                                                <a class="btn btn-mini btn-round btn-primary" href="">
-                                                    Process
-                                                </a>
-                                            @endcan
-                                        </div>
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-sm-offset-4 col-md-offset-4 col-md-4 col-sm-4" id="login_box">
                     <h2 style="margin-top: 1px;margin-bottom: -15px;">
-                        <img src="" style="width: 130px;padding:11px">
+                        <img src="{{ asset('assets/images/logo.png') }}" style="width: 130px;padding:11px">
                     </h2>
                     <hr style="margin-bottom: 10px">
                     <div class="form-horizontal" id="contact_form">
@@ -33,7 +33,6 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <a style="padding-left: 15px;" href="">Forgot your password?</a>
                                 <div class="col-md-12">
                                     <i class="notify" style="padding-left: 15px;"></i>
                                     <button type="button" class="authenticate btn btn-sm btn-default pull-right btn-round">Login <span class="fa fa-arrow-right"></span></button>

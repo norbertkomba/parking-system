@@ -27,10 +27,10 @@
                             <tr>
                                 <th class="center">#</th>
                                 <th class="text-left">Registration No</th>
-                                <th width="190" class="text-left">Owner</th>
+                                <th width="190" class="text-left">Owner Name</th>
+                                <th width="190" class="text-left">Owner Phone</th>
                                 <th class="text-left">Card No</th>
                                 <th class="text-right">Card Balance</th>
-                                <th class="hidden"></th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -40,10 +40,10 @@
                                 <tr>
                                     <td class="center">{{ $key+1 }}</td>
                                     <td>{{ $v->reg_no }}</td>
-                                    <td>{{ $v->owner_name." || ".$v->owner_contact }}</td>
+                                    <td>{{ $v->owner_name }}</td>
+                                    <td>{{ $v->owner_contact }}</td>
                                     <td>{{ $v->card_no ?? "Unknown" }}</td>
                                     <td class="text-right">{{ number_format($v->card_fee,2) }}/=</td>
-                                    <td class="hidden"></td>
 
                                     <td class="center" width="120">
                                         <div class="action-buttons">

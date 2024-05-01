@@ -27,8 +27,8 @@
                             <tr>
                                 <th class="center">#</th>
                                 <th class="text-left">Vehicle No</th>
-                                <th class="text-left">Category</th>
-                                <th class="text-left">Owner Details</th>
+                                <th class="text-left">Owner Name</th>
+                                <th class="text-left">Owner Phone</th>
                                 <th class="text-left">Card No</th>
                                 <th>Time Exceed x Rate = Charge</th>
                                 <th></th>
@@ -40,8 +40,8 @@
                                 <tr>
                                     <td class="center">{{ $key+1 }}</td>
                                     <td>{{ $v->reg_no }}</td>
-                                    <td>{{ $v->name }}</td>
-                                    <td>{{ $v->owner_name."  ||  ".$v->owner_contact }}</td>
+                                    <td>{{ $v->owner_name }}</td>
+                                    <td>{{ $v->owner_contact }}</td>
                                     <td>{{ $v->card_no ?? "Unknown" }}</td>
                                     <td width="200" class="center">
                                         @php

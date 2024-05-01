@@ -102,7 +102,7 @@ class DeviceController extends Controller
             'fee_charge' => ($time_diff_hours * $rate),
             'status' => true
         ]);
-        Vehicle::find($process[0]->vehicle_id)->update(["card_fee" => $calculated_fee]);
+        Vehicle::find($process[0]->vehicle_id)->update(["card_fee" => $remaining_balance]);
 
         return response()->json('logout');
 

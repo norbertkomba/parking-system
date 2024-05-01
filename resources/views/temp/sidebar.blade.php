@@ -152,7 +152,7 @@
                     <li class="{{ request()->routeIs("vehicle.manage") ? "active" : '' }}">
                         <a href="{{ route("vehicle.manage") }}">
                             <i class="menu-icon fa fa-caret-right"></i>
-                            Vehicle Entry
+                            Vehicle Registration
                         </a>
                         <b class="arrow"></b>
                     </li>

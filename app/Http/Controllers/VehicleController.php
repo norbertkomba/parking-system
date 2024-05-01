@@ -12,6 +12,7 @@ use App\Models\VehicleCategory;
 use App\Models\VehicleRate;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class VehicleController extends Controller
@@ -61,7 +62,7 @@ class VehicleController extends Controller
                     'owner_contact' => $vehicle->owner_contact
                 ]
             );
-            
+
             VehicleCard::find($vehicle->card)->update(['card_name' => Str::upper($vehicle->reg_no)]);
 
             return response()->json(["status" => JsonResponse::HTTP_OK, "message" => "Vehicle records saved successfully!"]);
@@ -73,7 +74,7 @@ class VehicleController extends Controller
     public function RechargeCardAmount(StoreUpdateRechargeCard $card){
         try {
             if ($card->ajax()) {
-                Vehicle::find($card->id)->update(['card_fee' => $card->recharge_fee]);
+                Vehicle::find($card->id)->update(['card_fee' => DB::raw('card_fee + ' . $card->recharge_fee)]);
                 return response()->json(["status" => JsonResponse::HTTP_OK, "message" => "Card recharged successfully!"]);
             }
         } catch (\Throwable $th) {
