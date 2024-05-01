@@ -274,28 +274,24 @@ function RechargeCardAmount(v)
                 getAllErrors(jqXhr, ajaxOptions, errorThrown,'.recharge_card');
             }
         });
+    });
+}
 
-
-        // $.ajax({
-        //     url:"/card-device/card/recharge",
-        //     method:"GET",
-        //     data:{card_fee:$('.card_fee').val(),id:v},
-        //     cache:false,
-        //     success:function(data){
-        //         console.log(data);
-        //         // $('.recharge_card').prop('disabled',false).html('<i class="fa fa-send"></i> Save');$('.request-progress').hide("");$('.loader-spinner').fadeOut();
-        //         // if (data.status == 200) {
-        //         //     swal({
-        //         //         title: 'Success!',
-        //         //         text: data.message,
-        //         //         icon: "success",
-        //         //         button: "OK",
-        //         //     }).then(() => { window.location.reload(true); });
-        //         // }else toastr.warning(data,'Oops..!');
-        //     },error:function(jqXhr, ajaxOptions, errorThrown){
-        //         getAllErrors(jqXhr, ajaxOptions, errorThrown,'.recharge_card');
-        //     }
-        // });
+function getVehicleDetails(v)
+{
+    $('.request-progress').show().html('<i class="ace-icon fa fa-circle-o-notch fa-spin white"></i> Fetching data please wait...');
+    $.ajax({
+        url: base_url() + 'vehicle/details',
+        type: "GET",
+        data: {id:v},
+        caches: false,
+        success:function(response) {
+            $('.request-progress').hide("");
+            $('#vehicle-details-content').html(" ").html(response);
+            $('#vehicle-details').modal('show');
+        },error:function(jqXhr, ajaxOptions, errorThrown){
+            getAllErrors(jqXhr, ajaxOptions, errorThrown,'');
+        }
     });
 }
 

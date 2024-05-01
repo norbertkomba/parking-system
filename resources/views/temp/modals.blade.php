@@ -55,3 +55,21 @@
         </div>
     </div>
 </div>
+
+<div id="vehicle-details" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" style="top: 20%">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header no-padding">
+                <div class="table-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <span class="white">&times;</span>
+                    </button>
+                    <b>Vehicle Details</b>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div id="vehicle-details-content"></div>
+            </div>
+        </div>
+    </div>
+</div>

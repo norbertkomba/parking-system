@@ -55,7 +55,7 @@
                                     <td class="center" width="100">
                                         <div class="action-buttons">
                                             @can('update vehicle')
-                                                <a class="btn btn-minier btn-round btn-primary" href="">
+                                                <a class="btn btn-minier btn-round btn-primary" onclick="getVehicleDetails({{ $v->id }})">
                                                     View Details
                                                 </a>
                                             @endcan

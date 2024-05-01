@@ -86,6 +86,7 @@ Route::prefix('vehicle')->group(function() {
     Route::get('/check-in', function () { return view('pages.vehicle.check-in'); })->name('vehicle.check-in');
     Route::get('/check-out', function () { return view('pages.vehicle.check-out'); })->name('vehicle.check-out');
     Route::get('/recharge',[VehicleController::class,'RechargeCardAmount'])->name('vehicle.recharge');
+    Route::get('/details',[VehicleController::class,'getVehicleRecords'])->name('vehicle.records');
 
 })->middleware(['can:manage vehicle']);
 
